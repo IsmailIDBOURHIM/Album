@@ -28,6 +28,11 @@ Route::middleware('auth')->group(function () {
    Route::resource ('image', 'ImageController', [
         'only' => ['create', 'store', 'destroy']
     ]);
+
+    Route::resource('profile', 'UserController', [
+        'only' => ['edit', 'update'],
+        'parameters' => ['profile' => 'user']
+    ]);
 });
 
 //afficher les photos par leurs catégories
