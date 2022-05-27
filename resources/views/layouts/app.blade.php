@@ -12,7 +12,7 @@
 </head>
 <body>
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="{{ route('home') }}">{{ config('app.name', 'Album') }}</a>
+    <a class="navbar-brand" href="{{ route('home') }}">Album</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -32,9 +32,14 @@
                     @endforeach
                 </div>
             </li>
-        @admin
+            @admin
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle{{ currentRoute( route('category.create') )}}" href="#" id="navbarDropdownGestCat" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle{{ currentRoute(
+                        route('category.create'),
+                        route('category.index'),
+                        route('category.edit', request()->category),
+                        route('maintenance.index')
+                    )}}" href="#" id="navbarDropdownGestCat" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     @lang('Administration')
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownGestCat">
@@ -44,9 +49,12 @@
                     <a class="dropdown-item" href="{{ route('category.index') }}">
                         <i class="fas fa-wrench fa-lg"></i> @lang('Gérer les catégories')
                     </a>
+                    <a class="dropdown-item" href="{{ route('maintenance.index') }}">
+                        <i class="fas fa-cogs fa-lg"></i> @lang('Maintenance')
+                    </a>
                 </div>
             </li>
-        @endadmin
+            @endadmin
         @auth
             <li class="nav-item{{ currentRoute(route('image.create')) }}"><a class="nav-link" href="{{ route('image.create') }}">@lang('Ajouter une image')</a></li>
         @endauth

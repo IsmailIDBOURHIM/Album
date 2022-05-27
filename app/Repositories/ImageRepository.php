@@ -29,4 +29,27 @@ class ImageRepository
             $query->whereSlug($slug);
         })->paginate(9);
     }
+
+    public function getImagesForUser($idUser)
+    {
+        return Image::latestWithUser()->whereHas('user', function ($q) use ($idUser){
+            $q->whereId($idUser);
+        })->paginate(9);
+    }
+
+    public function getOrphans()
+    {
+        $files = collect(Storage::disk('public')->files());
+        $images = Image::select('name')->get()->pluck('name');
+        return $files->diff($images);
+    }
+
+    public function destroyOrphans()
+    {
+        $orphans = $this->getOrphans ();
+        foreach($orphans as $orphan) {
+            Storage::disk('public')->delete($orphan);
+            Storage::disk('local')->delete($orphan);
+        }
+    }
 }

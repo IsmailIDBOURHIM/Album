@@ -64,6 +64,13 @@ class ImageController extends Controller
         return view('home', compact('category', 'images'));
     }
 
+    public function user(User $user)
+    {
+        $images = $this->repository->getImagesForUser($user->id);
+        //dd($images);
+        return view('home', compact('user', 'images'));
+
+    }
     /**
      * Display the specified resource.
      *
@@ -101,11 +108,13 @@ class ImageController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  App\Models\Image
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Image $image)
     {
-        //
+        $this->authorize('delete', $image);
+        $image->delete();
+        return back();
     }
 }

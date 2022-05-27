@@ -19,6 +19,9 @@ Route::middleware('admin')->group(function () {
     Route::resource ('category', 'CategoryController', [
         'except' => 'show'
     ]);
+    //partie maintenance réservée à l’administrateur pour la suppression d'une photo
+    Route::name('maintenance.index')->get('maintenance', 'AdminController@index');
+    Route::name('maintenance.destroy')->delete('maintenance', 'AdminController@destroy');
 });
 
 Route::middleware('auth')->group(function () {
@@ -26,4 +29,10 @@ Route::middleware('auth')->group(function () {
         'only' => ['create', 'store', 'destroy']
     ]);
 });
+
+//afficher les photos par leurs catégories
 Route::name('category')->get('category/{slug}', 'ImageController@category');
+
+//afficher uniquement les photos d'un utilisateur
+Route::name('user')->get('user/{user}', 'ImageController@user');
+
