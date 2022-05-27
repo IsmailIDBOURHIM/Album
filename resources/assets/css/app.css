@@ -10,3 +10,9 @@ body {
 .nav-item.active .nav-link{
     color: #efa2a9 !important;
 }
+.custom-file-label::after {
+    content: "Parcourir";
+}
+.text-title, h1 {
+    color: white;
+}
